@@ -6,7 +6,7 @@ nb:pour le commits reguliers je n'ai pas pu les mettre à chaque fois, mais j'ai
 
 maintenant pour la description j'ai créé un mini jeu snake developpé sur une seule page web comme on m'a demandé 
 tout d'abord le principe de ce jeu est classique un serpent qui doit eviter les obstacles et plus qu'il mangera il augmentera de taille tout en accelerant le jeu progressivment à chaque fois pour le rendre plus difficile
-et voici mon rendu final:(https://github.com/foufou1boutrif-hue/farah_boutrif_snake/blob/main/snake%20game%20part1/index1.html)
+et voici mon rendu final:(https://foufou1boutrif-hue.github.io/farah_boutrif_snake/)
 
 maintenant toutes les parties parties ordonnées:
 
