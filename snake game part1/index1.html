@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="fr">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width,initial-scale=1.0">
+        <title>Snake Game</title>
+        <style>
+            body{
+                margin: 0;
+                font-family: Arial, Helvetica, sans-serif;
+                background: linear-gradient(#0f2027);
+                color: white;
+                text-align: center;
+            }
+            h1{
+                margin-top: 20px;
+            }
+            canvas{
+                background:black;
+                border: 3px solid red ;
+                box-shadow:0 0 20px #C70039;
+            }
+            #contenu{
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                margin-top: 20px;
+            }
+            #info{
+                margin:auto;
+                font-size: 18px;
+            }
+            button{
+                padding: 10px 20px;
+                border-radius: 10px;
+                background: #C70039;
+                cursor: pointer;
+                transition: 0.5s;
+            }
+             button:hover {
+                background: #0f2027;
+            }
+            #gameOverScreen {
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: rgba(0,0,0,0.8);
+                color: white;
+                display: none;
+                justify-content: center;
+                align-items: center;
+                flex-direction: column;
+                font-size: 24px;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>Snake game</h1>
+        <div id="contenu">
+        <div id="info">
+        <p>Score:<span id="score">0</span></p>
+        <p>High Score:<span id="highscore">0</span></p>
+        </div>
+        <canvas id="gameCanvas" width="400" height="400"></canvas>
+        <br><br>
+        <button onclick="restartGame()">Restart</button>
+        </div>
+
+        <!-- 🧠 Game Over Screen -->
+        <div id="gameOverScreen">
+            <h2>💀 GAME OVER</h2>
+            <p id="finalScore"></p>
+            <button onclick="restartGame()">Restart</button>
+        </div>
+
+        <script>
+            const canvas=document.getElementById("gameCanvas");
+            const grandeurgrille=20;
+            const nbreboxes=20;
+            let snake,food,dx,dy,score,interval;
+            let speed=150;
+            let highscore=localStorage.getItem("highscore") || 0;
+            //volume
+            const eatSound = new Audio("https://www.myinstants.com/en/instant/bone-crack-23901/?utm_source=copy&utm_medium=share");
+            const gameOverSound = new Audio("https://www.myinstants.com/en/instant/spongebob-fail-11236/?utm_source=copy&utm_medium=share");
+            //glow
+            let glow = 0;
+            document.getElementById("highscore").innerText=highscore;
+            function initjeu(){
+                snake=[{x:10,y:10}];
+                food=randomFood();
+                dx=1;
+                dy=0;
+                score=0;
+                speed=150;
+                glow = 0;
+                document.getElementById("score").innerText=score;
+                document.getElementById("gameOverScreen").style.display="none";
+                clearInterval(interval);
+                interval=setInterval(gameloop,speed);
+            }
+            function randomFood(){
+                return {
+                    x:Math.floor(Math.random()*20),
+                    y:Math.floor(Math.random()*20)
+                };
+            }
+            function movesnake() {
+                const head={x:snake[0].x +dx, y:snake[0].y+dy};
+                snake.unshift(head);
+
+                if (head.x === food.x && head.y === food.y) {
+                    score++;
+                    document.getElementById("score").innerText=score;
+
+                    eatSound.play(); 
+                    glow = 10;
+
+                    food=randomFood();
+                    speed*=0.95;
+                    clearInterval(interval);
+                    interval=setInterval(gameloop,speed);
+                }else {
+                    snake.pop();
+                }
+            }
+            function gameloop(){
+                movesnake();
+                if(collision())
+                    return;
+                drawgame();
+            }
+            const ctx=canvas.getContext("2d");
+
+            function drawgame(){
+                ctx.fillStyle="black";
+                ctx.fillRect(0,0,canvas.width,canvas.height);
+                ctx.fillStyle="green";
+                ctx.shadowBlur = glow;
+                ctx.shadowColor = "#00ff00";
+                snake.forEach((part,index) => {
+                    ctx.fillRect(part.x*grandeurgrille,part.y*grandeurgrille,grandeurgrille-2,grandeurgrille-2);
+                });
+                ctx.shadowBlur = 0;
+                ctx.fillStyle="#C70039";
+                ctx.fillRect(food.x*grandeurgrille,food.y*grandeurgrille,grandeurgrille-2,grandeurgrille-2);
+                if (glow > 0) 
+                    glow--;
+            }
+            function collision(){
+                const head=snake[0];
+                if(head.x<0  || head.y<0 ||head.x>=nbreboxes ||head.y>=nbreboxes){
+                    return gameover();
+                }
+                for(let i=1;i<snake.length;i++){
+                    if(head.x===snake[i].x && head.y===snake[i].y){
+                        return gameover();
+                    }
+                }
+                return false;
+            }
+            function gameover(){
+                clearInterval(interval);
+                gameOverSound.play();
+                if(score>highscore){
+                    highscore=score;
+                    localStorage.setItem("highscore",highscore);
+                    document.getElementById("highscore").innerText=highscore;
+                }
+                document.getElementById("finalScore").innerText="Score: "+score;
+                document.getElementById("gameOverScreen").style.display="flex";
+                return true;
+            }
+            document.addEventListener("keydown",(event)=>{
+                if (event.key === "ArrowUp" && dy === 0) {
+                    dx = 0; dy = -1;
+                }
+                if (event.key === "ArrowDown" && dy === 0) {
+                    dx = 0; dy = 1;
+                }
+                if (event.key === "ArrowLeft" && dx === 0) {
+                    dx = -1; dy = 0;
+                }
+                if (event.key === "ArrowRight" && dx === 0) {
+                    dx = 1; dy = 0;
+                }
+            });
+            function restartGame(){
+                initjeu();
+            }
+
+            initjeu();
+        </script>
+    </body>
+</html>
