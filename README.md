@@ -13,6 +13,7 @@ maintenant toutes les parties parties ordonnées:
  1:https://github.com/foufou1boutrif-hue/farah_boutrif_snake/blob/main/snake%20game%20part2/index.html
  2:https://github.com/foufou1boutrif-hue/farah_boutrif_snake/blob/main/snake%20game%20part%203/html%2Bcss.txt
  3:https://github.com/foufou1boutrif-hue/farah_boutrif_snake/blob/main/snake%20game%20part%204/html%2Bcss%20%2Bjs%20init%20et%20random%20food.txt
+ 
  4:https://github.com/foufou1boutrif-hue/farah_boutrif_snake/blob/main/snake%20game%20part1/index.html
  
  pour les technologies utilisées :
