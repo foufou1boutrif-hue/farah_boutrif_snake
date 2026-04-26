@@ -15,6 +15,7 @@ maintenant toutes les parties parties ordonnées:
  3:https://github.com/foufou1boutrif-hue/farah_boutrif_snake/blob/main/snake%20game%20part%204/html%2Bcss%20%2Bjs%20init%20et%20random%20food.txt
  
  4:https://github.com/foufou1boutrif-hue/farah_boutrif_snake/blob/main/snake%20game%20part1/index.html
+ 5:https://github.com/foufou1boutrif-hue/farah_boutrif_snake/blob/main/snake%20game%20part1/index1.html
  
  pour les technologies utilisées :
  html: pour la structure de la page  et l'utilisation de canvas pour le rendu graphique du jeu
